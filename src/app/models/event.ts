@@ -1,6 +1,6 @@
 export interface Event {
   id: number;
   name: string;
-  class: string;
+  classEvent: string;
   type: string;
 }

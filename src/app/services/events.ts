@@ -6,7 +6,7 @@ import { Event } from '../models/event';
 })
 export class EventsService {
   private events: Event[] = [
-      { id: 1, name: 'Prova 1', class: 'Desenvolvimento Mobile', type: 'Prova' }
+      { id: 1, name: 'Prova 1', classEvent: 'Desenvolvimento Mobile', type: 'Prova' }
     ]
     private nextId = 2;
 

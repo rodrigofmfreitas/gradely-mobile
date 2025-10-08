@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ClassesService } from 'src/app/services/classes';
 
@@ -9,21 +10,36 @@ import { ClassesService } from 'src/app/services/classes';
   standalone: false,
 })
 export class AddClassesPage implements OnInit {
-  name = "";
-  course = "";
+  public multiForm!: FormGroup;
 
-  constructor(private classService: ClassesService, private router: Router) { }
+  constructor(
+    private classService: ClassesService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {
+    this.multiForm = this.formBuilder.group({
+      firstStep: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+        course: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]]
+      })
+    });
+  }
+
+  public getFormFirstStep(): FormGroup {
+    return this.multiForm.get('firstStep') as FormGroup;
+  }
 
   addClass() {
-    if (this.name.trim() && this.course.trim()) {
+    const firstStepForm = this.getFormFirstStep();
+    if (firstStepForm.valid) {
+      const { name, course } = firstStepForm.value;
       this.classService.add({
-        name: this.name,
-        course: this.course
-      })
+        name,
+        course
+      });
+      this.router.navigate(['/classes']);
     }
-    this.router.navigate(['/classes']);
-  }
-  ngOnInit() {
   }
 
+  ngOnInit() { }
 }

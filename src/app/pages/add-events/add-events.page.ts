@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventsService } from 'src/app/services/events';
 
@@ -9,23 +10,38 @@ import { EventsService } from 'src/app/services/events';
   standalone: false,
 })
 export class AddEventsPage implements OnInit {
-  name = "";
-  class = "";
-  type = "";
+  public multiForm!: FormGroup;
 
-  constructor(private eventService: EventsService, private router: Router) { }
+  constructor(
+    private eventService: EventsService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {
+    this.multiForm = this.formBuilder.group({
+      firstStep: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+        classEvent: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+        type: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      })
+    });
+  }
+
+  public getFormFirstStep(): FormGroup {
+    return this.multiForm.get('firstStep') as FormGroup;
+  }
 
   addEvent() {
-    if (this.name.trim() && this.class.trim() && this.type.trim()) {
-      this.eventService.add( {
-        name: this.name,
-        class: this.class,
-        type: this.class
-      })
+    const firstStepForm = this.getFormFirstStep();
+    if (firstStepForm.valid) {
+      const { name, classEvent, type } = firstStepForm.value;
+      this.eventService.add({
+        name,
+        classEvent,
+        type
+      });
+      this.router.navigate(['/events']);
     }
-    this.router.navigate(['/events']);
-  }
-  ngOnInit() {
   }
 
+  ngOnInit() {}
 }
