@@ -34,6 +34,14 @@ const routes: Routes = [
   {
     path: 'event-detail/:id',
     loadChildren: () => import('./pages/detail/event-detail/event-detail.module').then( m => m.EventDetailPageModule)
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'tasks',
+    loadChildren: () => import('./pages/tasks/tasks.module').then( m => m.TasksPageModule)
   }
 ];
 

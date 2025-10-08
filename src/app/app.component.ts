@@ -10,7 +10,7 @@ export class AppComponent {
     { title: 'Perfil', url: '/profile', icon: 'person' },
     { title: 'Disciplinas', url: '/classes', icon: 'library' },
     { title: 'Eventos', url: '/events', icon: 'heart' },
-    { title: 'Tarefas', url: '/tarefas', icon: 'newspaper' },
+    { title: 'Tarefas', url: '/tasks', icon: 'newspaper' },
     { title: 'Dashboard', url: '/dashboard', icon: 'analytics' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
