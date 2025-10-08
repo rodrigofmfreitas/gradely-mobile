@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/classes">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Nova Disciplina</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Nome</ion-label>
+    <ion-input [(ngModel)]="name" placeholder="Ex: Matemática"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Curso</ion-label>
+    <ion-input [(ngModel)]="course" placeholder="Ex: Ciência da Computação"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="success" (click)="addClass()">
+    Adicionar
+  </ion-button>
+</ion-content>

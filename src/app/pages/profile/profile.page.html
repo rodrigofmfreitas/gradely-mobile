@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+   <div class="profile-header">
+    <img src="assets/img/logo-gradely-nome-2.png" alt="Gradely Logo" class="gradely-logo" />
+
+    <div class="profile-picture-wrapper">
+      <img
+        [src]="profileImage || 'assets/img/logo-gradely-boneco-icone.png'"
+        alt="Profile Picture"
+        class="profile-picture"
+        (click)="changePhoto()"
+      />
+      <ion-icon name="create-outline" class="edit-icon"></ion-icon>
+    </div>
+  </div>
+
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Nome</ion-label>
+        <ion-input placeholder="Rodrigo Faria Melo Freitas" disabled="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Instituição</ion-label>
+        <ion-input placeholder="Fumec" disabled="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Curso</ion-label>
+        <ion-input placeholder="Ciência da Computação" disabled="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Período</ion-label>
+        <ion-input placeholder="6o" disabled="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">RA</ion-label>
+        <ion-input placeholder="83" disabled="true"></ion-input>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Disciplinas em Aberto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/add-events">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let e of events">
+    <ion-card-header>
+      <ion-card-subtitle>{{ e.class }}</ion-card-subtitle>
+      <ion-card-title>{{ e.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button size="small" fill="clear" (click)="getDetail(e.id)">Detalhes</ion-button>
+      <ion-button size="small" color="success" fill="clear" (click)="finalize(e.id)">Finalizar</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

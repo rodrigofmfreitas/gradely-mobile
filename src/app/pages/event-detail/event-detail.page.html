@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/events">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Detalhes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="eventData; else notFound">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ eventData.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Curso:</strong> {{ eventData.class }}</p>
+      <p><strong>Tipo:</strong> {{ eventData.type }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ng-template #notFound>
+  <ion-text color="danger">
+    <p>Disciplina não encontrada.</p>
+  </ion-text>
+</ng-template>

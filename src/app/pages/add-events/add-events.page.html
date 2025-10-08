@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/events">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Novo Evento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label position="stacked">Nome</ion-label>
+    <ion-input [(ngModel)]="name" placeholder="Ex: Prova 1"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Disciplina</ion-label>
+    <ion-input [(ngModel)]="class" placeholder="Ex: Desenvolvimento Mobile"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Tipo</ion-label>
+    <ion-input [(ngModel)]="type" placeholder="Ex: Trabalho/Prova"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" color="success" (click)="addEvent()">
+    Adicionar
+  </ion-button>
+</ion-content>
