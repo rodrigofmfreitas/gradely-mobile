@@ -21,19 +21,19 @@ const routes: Routes = [
   },
   {
     path: 'add-classes',
-    loadChildren: () => import('./pages/add-classes/add-classes.module').then( m => m.AddClassesPageModule)
+    loadChildren: () => import('./pages/add/add-classes/add-classes.module').then( m => m.AddClassesPageModule)
   },
   {
     path: 'add-events',
-    loadChildren: () => import('./pages/add-events/add-events.module').then( m => m.AddEventsPageModule)
+    loadChildren: () => import('./pages/add/add-events/add-events.module').then( m => m.AddEventsPageModule)
   },
   {
     path: 'class-detail/:id',
-    loadChildren: () => import('./pages/class-detail/class-detail.module').then( m => m.ClassDetailPageModule)
+    loadChildren: () => import('./pages/detail/class-detail/class-detail.module').then( m => m.ClassDetailPageModule)
   },
   {
     path: 'event-detail/:id',
-    loadChildren: () => import('./pages/event-detail/event-detail.module').then( m => m.EventDetailPageModule)
+    loadChildren: () => import('./pages/detail/event-detail/event-detail.module').then( m => m.EventDetailPageModule)
   }
 ];
 
