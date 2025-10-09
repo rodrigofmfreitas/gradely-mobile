@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <ion-item>
+      <ion-label position="stacked">Usuário</ion-label>
+      <ion-input formControlName="username" type="text" autocomplete="username"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Senha</ion-label>
+      <ion-input formControlName="password" type="password" autocomplete="current-password"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Manter conectado</ion-label>
+      <ion-checkbox slot="start" formControlName="remember"></ion-checkbox>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="form.invalid" class="ion-margin-top" routerLink="/profile">
+      Entrar
+    </ion-button>
+  </form>
+</ion-content>

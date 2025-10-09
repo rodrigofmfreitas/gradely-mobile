@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Class } from 'src/app/models/class';
+import { ClassEnrolled } from 'src/app/models/class-enrolled';
 import { ClassesService } from 'src/app/services/classes';
 
 @Component({
@@ -10,7 +10,7 @@ import { ClassesService } from 'src/app/services/classes';
   standalone: false,
 })
 export class ClassesPage implements OnInit {
-  classes: Class[] = []
+  classes: ClassEnrolled[] = []
 
   constructor(private classesService: ClassesService, private router: Router) { }
 

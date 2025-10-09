@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Class } from 'src/app/models/class';
+import { ClassEnrolled } from 'src/app/models/class-enrolled';
 import { ClassesService } from 'src/app/services/classes';
 
 @Component({
@@ -10,7 +10,7 @@ import { ClassesService } from 'src/app/services/classes';
   standalone: false
 })
 export class ClassDetailPage implements OnInit {
-  classData?: Class;
+  classData?: ClassEnrolled;
 
   constructor(
     private route: ActivatedRoute,

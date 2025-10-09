@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Class } from '../models/class';
+import { ClassEnrolled } from '../models/class-enrolled';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClassesService {
-  private classes: Class[] = [
+  private classes: ClassEnrolled[] = [
     { id: 1, name: 'Desenvolvimento Mobile', course: 'Computer Science' }
   ]
   private nextId = 2;
 
-  getAll(): Class[] {
+  getAll(): ClassEnrolled[] {
     return this.classes;
   }
 
@@ -18,7 +18,7 @@ export class ClassesService {
     return this.classes.find(c => c.id === id);
   }
 
-  add(classData: Omit<Class, 'id'>) {
+  add(classData: Omit<ClassEnrolled, 'id'>) {
     const newClass = { id: this.nextId++, ...classData};
     this.classes.push(newClass);
   }
