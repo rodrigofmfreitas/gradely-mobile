@@ -1,0 +1,182 @@
+:root {
+  --color-green: #34C759;
+  --color-red: #FF3B30;
+  --color-light-blue: #5AC8FA;
+  --color-blue: #007AFF;
+  --color-inactive: #F04141;
+  --color-active: #19A4D3;
+  --color-total: #838383;
+}
+
+
+ion-header ion-toolbar {
+  --background: var(--ion-color-light, #f4f5f8);
+
+  ion-searchbar {
+    --background: #ffffff;
+    --border-radius: 10px;
+    padding-bottom: 16px;
+  }
+}
+
+ion-content {
+  --background: var(--ion-color-light, #f4f5f8);
+}
+
+
+.main-content {
+  padding: 0 16px;
+}
+
+
+.title-item {
+  --background: transparent;
+  padding-left: 0;
+
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+
+.filters {
+  padding-left: 0;
+
+  .search-tasks {
+    --background: #ffffff;
+    --border-radius: 10px;
+    height: 40px;
+  }
+
+  ion-segment {
+    height: 40px;
+    --background: #ffffff;
+    border-radius: 10px;
+
+    ion-segment-button {
+      --indicator-color: var(--ion-color-primary);
+      --color-checked: #ffffff;
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+
+.highlights-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+
+
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .highlight-card {
+    min-width: 90px;
+    height: 200px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .bar {
+      width: 100%;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: 8px;
+    }
+
+    .bar-label {
+      font-weight: 500;
+      font-size: 16px;
+      color: #000;
+    }
+
+    .legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      ion-label {
+        font-size: 13px;
+        color: var(--ion-color-medium);
+      }
+    }
+  }
+}
+
+
+.participation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 0;
+  }
+  ion-label {
+    font-size: 14px;
+  }
+}
+
+.participation-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  margin-top: 16px;
+  padding: 16px;
+
+  .chart-container {
+    position: relative;
+    height: 150px;
+  }
+
+  .legend-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    ion-label {
+      font-size: 14px;
+    }
+    .value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #000;
+    }
+  }
+}

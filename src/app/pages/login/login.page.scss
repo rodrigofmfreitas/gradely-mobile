@@ -1,0 +1,96 @@
+ion-content {
+  position: relative;
+  --background: transparent;
+
+  .background-image {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/img/fundo-login.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+  }
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding-top: 23vh;
+  }
+
+  .logo-icon {
+    width: 60px;
+    margin-bottom: 5px;
+  }
+
+  .logo-name {
+    width: 180px;
+    height: auto;
+    margin-bottom: 73px;
+  }
+
+  .login-form {
+    width: 65%;
+    max-width: 250px;
+  }
+
+  .input-item {
+    --background: rgba(255, 255, 255, 0.9);
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --border-radius: 30px;
+    --border-color: transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 15px;
+
+    .input-icon {
+      color: var(--ion-color-medium-shade);
+      margin-right: 8px;
+    }
+
+    .custom-input {
+       --placeholder-color: var(--ion-color-medium-shade);
+       --color: var(--ion-color-dark);
+       font-size: 0.95em;
+    }
+  }
+
+  ion-input {
+    --padding-start: 5px;
+  }
+
+.login-button {
+    --background: #000000;
+    --background-activated: #222;
+    height: 32px;
+    font-size: 0.6em;
+    --border-radius: 25px;
+    --box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    font-weight: bold;
+    margin-top: 15px;
+    color: white;
+    width: 90px;
+
+  }
+
+  ion-header {
+    display: none;
+  }
+}
+
+:host {
+  ion-content {
+    --background: transparent !important;
+  }
+}
+
+html, body {
+  background: transparent !important;
+}
