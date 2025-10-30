@@ -7,6 +7,7 @@ import { EventsService } from 'src/app/services/events'; // SEU SERVIÇO REAL
   selector: 'app-events',
   templateUrl: './events.page.html',
   styleUrls: ['./events.page.scss'],
+  standalone: false,
 })
 export class EventsPage implements OnInit {
 
