@@ -1,35 +1,89 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Dashboards</ion-title>
+    <ion-searchbar placeholder="Pesquisar"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Desempenho</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button size="small" fill="clear">Acessar</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Tarefas</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button size="small" fill="clear">Acessar</ion-button>
-    </ion-card-content>
-  </ion-card>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Eventos</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button size="small" fill="clear">Acessar</ion-button>
-    </ion-card-content>
-  </ion-card>
+<ion-content [fullscreen]="true">
+  <div class="main-content">
+
+    <ion-item lines="none" class="title-item">
+      <h1>Desempenho</h1>
+      <ion-icon name="pencil-outline" slot="end" color="medium"></ion-icon>
+    </ion-item>
+
+    <ion-grid class="filters">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="8">
+          <ion-searchbar class="search-tasks" placeholder="Procurar Tasks"></ion-searchbar>
+        </ion-col>
+        <ion-col size="4" class="ion-text-end">
+          <ion-segment [(ngModel)]="viewMode">
+            <ion-segment-button value="list">
+              <ion-icon name="list-outline"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="grid">
+              <ion-icon name="grid-outline"></ion-icon>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <h2>Destaques</h2>
+    <div class="highlights-container">
+      <div *ngFor="let item of destaques" class="highlight-card">
+        <div class="bar" [style.background-color]="item.color" [style.height.%]="item.percent"></div>
+        <ion-label class="bar-label">{{ item.label }}</ion-label>
+        <div class="legend">
+          <span class="dot" [style.background-color]="item.color"></span>
+          <ion-label>Disc. {{ item.disc }}</ion-label>
+        </div>
+      </div>
+    </div>
+
+    <div class="participation-header">
+      <h2>Participação</h2>
+      <ion-label color="medium">Aug 25 - Sep 25</ion-label>
+    </div>
+
+    <ion-grid class="participation-content">
+      <ion-row>
+        <ion-col size="6">
+          <div class="chart-container">
+            <canvas baseChart
+              [data]="doughnutChartData"
+              [type]="'doughnut'"
+              [options]="doughnutChartOptions">
+            </canvas>
+          </div>
+        </ion-col>
+
+        <ion-col size="6" class="legend-container">
+          <div class="legend-item">
+            <span class="dot" style="background-color: #F04141;"></span>
+            <div>
+              <ion-label color="medium">Inativo</ion-label>
+              <div class="value">320</div>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="dot" style="background-color: #19A4D3;"></span>
+            <div>
+              <ion-label color="medium">Ativo</ion-label>
+              <div class="value">6000</div>
+            </div>
+          </div>
+          <div class="legend-item">
+            <span class="dot" style="background-color: #838383;"></span>
+            <div>
+              <ion-label color="medium">Total</ion-label>
+              <div class="value">6320</div>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
 </ion-content>
