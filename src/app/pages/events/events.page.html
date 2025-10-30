@@ -1,26 +1,59 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
     </ion-buttons>
-    <ion-title>Disciplinas em Aberto</ion-title>
+    <ion-title class="ion-text-center">Eventos</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/add-events">
-        <ion-icon name="add-circle-outline"></ion-icon>
+      <ion-button (click)="goToAddEvent()">
+        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-searchbar placeholder="Pesquisar"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-card *ngFor="let e of events">
-    <ion-card-header>
-      <ion-card-subtitle>{{ e.classEvent }}</ion-card-subtitle>
-      <ion-card-title>{{ e.name }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button size="small" fill="clear" (click)="getDetail(e.id)">Detalhes</ion-button>
-      <ion-button size="small" color="success" fill="clear" (click)="finalize(e.id)">Finalizar</ion-button>
-    </ion-card-content>
-  </ion-card>
+<ion-content>
+  <div class="date-timeline-container">
+    <ion-chip
+      *ngFor="let date of dates"
+      [outline]="selectedDate.value !== date.value"
+      [color]="selectedDate.value === date.value ? 'primary' : 'medium'"
+      (click)="selectDate(date)">
+      <ion-label>{{ date.label }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <ion-list>
+    <ion-card
+      *ngFor="let event of filteredEvents"
+      class="card-list-item">
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+
+          <ion-col size="9" class="card-turma-info" [ngClass]="getEventColor(event)" (click)="getDetail(event.id)">
+            <ion-card-title>{{ event.name }}</ion-card-title>
+            <ion-card-subtitle>{{ event.local }}</ion-card-subtitle>
+          </ion-col>
+
+          <ion-col size="3" class="ion-text-center card-turma-horario" (click)="getDetail(event.id)">
+            <strong>{{ event.date | date: 'dd/MM' }}</strong>
+            <span>{{ event.date | date: 'HH:mm' }}</span>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+      <ion-button fill="clear" color="danger" (click)="finalize(event.id)" class="finalize-button">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-card>
+  </ion-list>
+
+  <div *ngIf="filteredEvents.length === 0" class="ion-text-center ion-padding-top">
+    <p>Nenhum evento para esta data.</p>
+  </div>
+
 </ion-content>

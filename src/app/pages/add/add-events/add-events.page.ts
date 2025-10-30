@@ -11,6 +11,7 @@ import { EventsService } from 'src/app/services/events';
 })
 export class AddEventsPage implements OnInit {
   public multiForm!: FormGroup;
+  eventForm: any;
 
   constructor(
     private eventService: EventsService,
@@ -31,16 +32,15 @@ export class AddEventsPage implements OnInit {
   }
 
   addEvent() {
-    const firstStepForm = this.getFormFirstStep();
-    if (firstStepForm.valid) {
-      const { name, classEvent, type } = firstStepForm.value;
-      this.eventService.add({
-        name,
-        classEvent,
-        type
-      });
-      this.router.navigate(['/events']);
-    }
+    const { name, classEvent, type, date, local } = this.eventForm.value;
+
+this.eventService.add({
+  name,
+  classEvent,
+  type,
+  date,  // <-- ADICIONE ESTA LINHA
+  local  // <-- ADICIONE ESTA LINHA
+});
   }
 
   ngOnInit() {}

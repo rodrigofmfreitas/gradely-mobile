@@ -20,8 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'events',
-    loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule) // <-- Esta é a linha correta
   },
   {
     path: 'add-classes',
