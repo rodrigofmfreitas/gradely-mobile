@@ -1,7 +1,8 @@
+import { City } from "./city";
+
 export interface Address {
   id: number;
-  uf: string;
-  city: string;
+  city: City;
   neighborhood: string;
   street: string;
   num: number;
