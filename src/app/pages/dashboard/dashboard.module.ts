@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular'; // Para os 'ion-'
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
-import { DashboardPage } from './dashboard.page';
+import { IonicModule } from '@ionic/angular';
+import { NgChartsModule } from 'ng2-charts';
 
-import { NgChartsModule } from 'ng2-charts'; // Para o gráfico
+import { DashboardPage } from './dashboard.page';
+import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule, // Import do Ionic
-    DashboardPageRoutingModule,
-    NgChartsModule // Import do Gráfico
+    IonicModule,
+    NgChartsModule,
+    DashboardPageRoutingModule
   ],
   declarations: [DashboardPage]
 })
