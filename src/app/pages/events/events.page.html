@@ -1,27 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Eventos</ion-title>
-    </ion-toolbar>
+    <ion-title>
+      Cronograma
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <full-calendar [options]="calendarOptions"></full-calendar>
+  <div id="chart">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [plotOptions]="chartOptions.plotOptions"
+      [xaxis]="chartOptions.xaxis"
+      [yaxis]="chartOptions.yaxis"
+      [dataLabels]="chartOptions.dataLabels"
+      [fill]="chartOptions.fill"
+    ></apx-chart>
+  </div>
 </ion-content>
-
-<div class="ion-padding-horizontal">
-  <h1>Eventos <ion-icon name="pencil-outline" color="medium"></ion-icon></h1>
-</div>
-
-<ion-searchbar placeholder="Pesquisar"></ion-searchbar>
-<ion-searchbar placeholder="Procurar Tasks" class="ion-padding-horizontal"></ion-searchbar>
-
-<ion-buttons slot="end" class="ion-padding-end">
-  <ion-button fill="solid" color="light">
-    <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
-  </ion-button>
-  <ion-button fill="solid" color="light">
-    <ion-icon slot="icon-only" name="list-outline"></ion-icon>
-  </ion-button>
-</ion-buttons>
-
-

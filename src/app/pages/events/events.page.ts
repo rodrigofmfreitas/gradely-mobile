@@ -1,54 +1,90 @@
 import { Component } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
-
-// 1. CORREÇÃO: Importe o plugin AQUI
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import { IonHeader } from "@ionic/angular/standalone";
 
 @Component({
-  selector: 'app-eventos',
-  // 2. CORREÇÃO: Seus arquivos se chamam 'events.page.html' e 'events.page.scss'
-  // (e não 'eventos.page.html' / 'eventos.page.scss')
-  templateUrl: './events.page.html',
-  styleUrls: ['./events.page.scss'],
-  standalone: false
+  selector: 'app-events',
+  templateUrl: 'events.page.html',
+  styleUrls: ['events.page.scss'],
+  standalone:false
 })
-export class EventosPage {
+export class EventosPage { // Nome da classe atualizado
 
-  calendarOptions: CalendarOptions = {
-    initialView: 'resourceTimelineDay',
+  // Esta é a configuração do seu gráfico
+  public chartOptions: any; // Você pode usar 'any' ou a interface ChartOptions
 
-    // 3. CORREÇÃO: Passe o OBJETO do plugin, não uma string
-    plugins: [ resourceTimelinePlugin ],
-
-    headerToolbar: false,
-    slotMinTime: '08:00:00',
-    slotMaxTime: '18:00:00',
-
-    // Seus dados (mantidos como estavam)
-    resources: [
-      { id: 'multi', title: 'Multidisciplinar' },
-      { id: 'disc1', title: 'Disciplina 1' },
-      { id: 'disc2', title: 'Disciplina 2' },
-      { id: 'disc3', title: 'Disciplina 3' }
-    ],
-    events: [
-      {
-        title: 'Palestra',
-        resourceId: 'multi',
-        start: '2025-10-30T09:30:00',
-        end: '2025-10-30T11:00:00',
-        color: '#FF5733'
+  constructor() {
+    this.chartOptions = {
+      // 1. OS DADOS (SÉRIES)
+      series: [
+        {
+          name: 'Tarefas', // Nome da série
+          data: [
+            // Cada objeto aqui é uma barra no gráfico
+            {
+              // 'x' é o nome da linha (o nome da pessoa)
+              x: 'Neneng Sukema',
+              // 'y' são as datas de início e fim
+              y: [
+                new Date('2021-06-15T08:30:00').getTime(), // Início
+                new Date('2021-06-15T17:30:00').getTime()  // Fim
+              ]
+            },
+            {
+              x: 'Abdul Aziz',
+              y: [
+                new Date('2021-06-15T09:30:00').getTime(),
+                new Date('2021-06-15T18:30:00').getTime()
+              ]
+            },
+            {
+              x: 'Cecen Nurheni',
+              y: [
+                new Date('2021-06-15T10:30:00').getTime(),
+                new Date('2021-06-15T22:30:00').getTime() // 12 horas
+              ]
+            }
+            // Adicione os outros (Rojak Suganda, Dadang Gongsir) aqui...
+          ]
+        }
+      ],
+      // 2. O TIPO DE GRÁFICO
+      chart: {
+        type: 'rangeBar', // <-- ISSO CRIA O GRÁFICO DE GANTT/TIMELINE
+        height: 350
       },
-      {
-        title: 'Trabalho',
-        resourceId: 'disc1',
-        start: '2025-10-30T10:30:00',
-        end: '2025-10-30T12:00:00',
-        color: '#337DFF'
+      // 3. OPÇÕES DE VISUALIZAÇÃO
+      plotOptions: {
+        bar: {
+          horizontal: true, // Barras horizontais
+          borderRadius: 8 // Bordas arredondadas (como na imagem)
+        }
+      },
+      // 4. EIXO X (AS DATAS/HORAS)
+      xaxis: {
+        type: 'datetime' // O eixo X é baseado em tempo
+      },
+      // 5. EIXO Y (OS NOMES)
+      yaxis: {
+        // O ApexCharts vai usar os nomes do 'x' nos dados automaticamente
+      },
+      // 6. ESTILO (ex: gradiente)
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'light',
+          type: 'horizontal',
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [50, 0, 100, 100]
+        }
+      },
+      dataLabels: {
+        enabled: false // Esconde os rótulos dentro das barras
       }
-    ]
-  };
-
-  constructor() { }
+    };
+  }
 }
+
