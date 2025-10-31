@@ -1,31 +1,27 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { EventsPageRoutingModule } from './events-routing.module';
-import { EventsPage } from './events.page';
 
-import { FormsModule } from '@angular/forms';
+// 1. CORREÇÃO: O nome da sua classe é 'EventosPage'
+import { EventosPage } from './events.page';
 
+// 2. CORREÇÃO: Importe o FullCalendarModule aqui
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { resourceTimelinePlugin } from '@fullcalendar/resource-timeline';
-import { dayGridPlugin } from '@fullcalendar/daygrid';
-import { timeGridPlugin } from '@fullcalendar/timegrid';
 
-FullCalendarModule.registerPlugins([
-  resourceTimelinePlugin,
-  dayGridPlugin,
-  timeGridPlugin
-]);
+// 3. CORREÇÃO: Remova todas as importações de plugins e a chamada 'registerPlugins'
+// Elas não são mais necessárias neste arquivo no FullCalendar v6
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     IonicModule,
     EventsPageRoutingModule,
-    FormsModule,
-    FullCalendarModule
+    FullCalendarModule // 4. CORREÇÃO: Adicione o FullCalendarModule aos imports
   ],
-  declarations: [EventsPage]
+  // 5. CORREÇÃO: Declare o nome correto da classe
+  declarations: [EventosPage]
 })
-export class EventsPageModule {}
+export class EventosPageModule {}
