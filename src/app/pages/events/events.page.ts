@@ -1,105 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Event } from 'src/app/models/event'; // SEU MODELO REAL
-import { EventsService } from 'src/app/services/events'; // SEU SERVIÇO REAL
+import { Component } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/core';
 
 @Component({
-  selector: 'app-events',
-  templateUrl: './events.page.html',
-  styleUrls: ['./events.page.scss'],
-  standalone: false,
+  selector: 'app-eventos',
+  templateUrl: './eventos.page.html',
+  styleUrls: ['./eventos.page.scss'],
 })
-export class EventsPage implements OnInit {
+export class EventosPage {
 
-  dates: any[] = [];
-  selectedDate: any;
+  calendarOptions: CalendarOptions = {
+    // === CONFIGURAÇÃO PRINCIPAL ===
+    initialView: 'resourceTimelineDay', // A visão que você quer!
+    plugins: [ 'resourceTimeline' ], // Garante que o plugin está carregado
+    headerToolbar: false, // Remove o cabeçalho padrão (Hoje, <, >)
 
-  allEvents: Event[] = []; // Usando seu model Event
-  filteredEvents: Event[] = []; // Usando seu model Event
+    // === EIXO DE TEMPO (COLUNAS) ===
+    slotMinTime: '08:00:00', // Horário de início
+    slotMaxTime: '18:00:00', // Horário de término
+    slotDuration: '00:15:00', // Intervalo de 15 min
+    // Mostra os textos "9:00", "10:15" etc.
+    slotLabelFormat: {
+      hour: 'numeric',
+      minute: '2-digit',
+      omitZeroMinute: false,
+      meridiem: false // 'false' para formato 24h
+    },
 
-  // MANTENDO as funções do seu arquivo original
-  constructor(private eventsService: EventsService, private router: Router) { }
+    // === EIXO DE DISCIPLINAS (LINHAS) ===
+    resources: [
+      { id: 'multi', title: 'Multidisciplinar' },
+      { id: 'disc1', title: 'Disciplina 1' },
+      { id: 'disc2', title: 'Disciplina 2' },
+      { id: 'disc3', title: 'Disciplina 3' }
+    ],
 
-  ngOnInit() {
-    this.generateDates(); // Cria a timeline horizontal
-    this.loadEvents();    // Carrega os eventos
-  }
+    // === SEUS EVENTOS ===
+    // Seus dados de eventos precisam ser mapeados para este formato.
+    // O 'resourceId' conecta o evento à disciplina.
+    events: [
+      {
+        title: 'Palestra',
+        resourceId: 'multi', // Conecta com "Multidisciplinar"
+        start: '2025-10-30T09:30:00', // Use data e hora completas
+        end: '2025-10-30T11:00:00',
+        color: '#FF5733' // Cor laranja
+      },
+      {
+        title: 'Trabalho',
+        resourceId: 'disc1',
+        start: '2025-10-30T10:30:00',
+        end: '2025-10-30T12:00:00',
+        color: '#337DFF' // Cor azul
+      },
+      {
+        title: 'Prova',
+        resourceId: 'disc2',
+        start: '2025-10-30T11:30:00',
+        end: '2025-10-30T12:30:00',
+        color: '#33FF57' // Cor verde (exemplo)
+      }
+      // ... adicione mais eventos
+    ]
+  };
 
-  // Carrega os eventos REAIS do seu serviço
-  loadEvents() {
-    // Agora usamos seu serviço
-    this.allEvents = this.eventsService.getAll();
+  constructor() { }
 
-    // Seleciona a data de "Hoje" e filtra os eventos
-    if (this.dates.length > 0) {
-      this.selectDate(this.dates[0]);
-    }
-  }
-
-  // Filtra os eventos baseado na data selecionada
-  selectDate(date: any) {
-    this.selectedDate = date;
-
-    // Lógica de filtro
-    // Compara o dia, mês e ano, ignorando a hora
-    this.filteredEvents = this.allEvents.filter(event => {
-      // event.date é uma string, convertemos para Date
-      const eventDate = new Date(event.date);
-      return eventDate.toDateString() === this.selectedDate.value.toDateString();
-    });
-  }
-
-  // Função para a cor (compromisso, já que não vem do model)
-  getEventColor(event: Event): string {
-    // Simples lógica para variar a cor baseada no ID
-    const id = event.id || 0;
-    const colors = ['primary', 'secondary', 'tertiary', 'success', 'warning', 'danger'];
-    return colors[id % colors.length];
-  }
-
-  // --- Funções que você já tinha ---
-  goToAddEvent() {
-    this.router.navigate(['/add-events']);
-  }
-
-  getDetail(id: number) {
-    this.router.navigate(['/event-detail', id]);
-  }
-
-  // Função para finalizar (do seu arquivo original)
-  finalize(id: number) {
-    this.eventsService.delete(id);
-    this.loadEvents(); // Recarrega os eventos
-  }
-
-  // --- Helper para criar a timeline ---
-  generateDates() {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
-    this.dates = [
-      { label: 'Hoje', value: today },
-      { label: 'Amanhã', value: tomorrow },
-    ];
-
-    // Adiciona os próximos 5 dias
-    for (let i = 2; i < 7; i++) {
-      const nextDate = new Date(today);
-      nextDate.setDate(nextDate.getDate() + i);
-
-      const label = nextDate.toLocaleDateString('pt-BR', {
-        weekday: 'short',
-        day: '2-digit',
-        month: '2-digit'
-      }).replace('.', '');
-
-      this.dates.push({ label: label, value: nextDate });
-    }
-
-    // Define "Hoje" como a data inicial selecionada
-    if (this.dates.length > 0) {
-      this.selectedDate = this.dates[0];
-    }
-  }
 }

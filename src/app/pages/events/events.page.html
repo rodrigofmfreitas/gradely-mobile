@@ -1,59 +1,27 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="dashboard"></ion-back-button>
-    </ion-buttons>
-    <ion-title class="ion-text-center">Eventos</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="goToAddEvent()">
-        <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-
-  <ion-toolbar color="primary">
-    <ion-searchbar placeholder="Pesquisar"></ion-searchbar>
-  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Eventos</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="date-timeline-container">
-    <ion-chip
-      *ngFor="let date of dates"
-      [outline]="selectedDate.value !== date.value"
-      [color]="selectedDate.value === date.value ? 'primary' : 'medium'"
-      (click)="selectDate(date)">
-      <ion-label>{{ date.label }}</ion-label>
-    </ion-chip>
-  </div>
-
-  <ion-list>
-    <ion-card
-      *ngFor="let event of filteredEvents"
-      class="card-list-item">
-      <ion-grid>
-        <ion-row class="ion-align-items-center">
-
-          <ion-col size="9" class="card-turma-info" [ngClass]="getEventColor(event)" (click)="getDetail(event.id)">
-            <ion-card-title>{{ event.name }}</ion-card-title>
-            <ion-card-subtitle>{{ event.local }}</ion-card-subtitle>
-          </ion-col>
-
-          <ion-col size="3" class="ion-text-center card-turma-horario" (click)="getDetail(event.id)">
-            <strong>{{ event.date | date: 'dd/MM' }}</strong>
-            <span>{{ event.date | date: 'HH:mm' }}</span>
-          </ion-col>
-
-        </ion-row>
-      </ion-grid>
-      <ion-button fill="clear" color="danger" (click)="finalize(event.id)" class="finalize-button">
-        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-card>
-  </ion-list>
-
-  <div *ngIf="filteredEvents.length === 0" class="ion-text-center ion-padding-top">
-    <p>Nenhum evento para esta data.</p>
-  </div>
-
+  <full-calendar [options]="calendarOptions"></full-calendar>
 </ion-content>
+
+<div class="ion-padding-horizontal">
+  <h1>Eventos <ion-icon name="pencil-outline" color="medium"></ion-icon></h1>
+</div>
+
+<ion-searchbar placeholder="Pesquisar"></ion-searchbar>
+<ion-searchbar placeholder="Procurar Tasks" class="ion-padding-horizontal"></ion-searchbar>
+
+<ion-buttons slot="end" class="ion-padding-end">
+  <ion-button fill="solid" color="light">
+    <ion-icon slot="icon-only" name="calendar-outline"></ion-icon>
+  </ion-button>
+  <ion-button fill="solid" color="light">
+    <ion-icon slot="icon-only" name="list-outline"></ion-icon>
+  </ion-button>
+</ion-buttons>
+
+
