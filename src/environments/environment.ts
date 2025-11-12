@@ -2,8 +2,18 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { initializeApp } from "firebase/app";
+
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyC0XjtaOPpikZ6eHLmd4K072LjPqrXluDU",
+    authDomain: "gradely-mobile.firebaseapp.com",
+    projectId: "gradely-mobile",
+    storageBucket: "gradely-mobile.firebasestorage.app",
+    messagingSenderId: "202414613449",
+    appId: "1:202414613449:web:004084fee01b73b7f27e18"
+  }
 };
 
 /*

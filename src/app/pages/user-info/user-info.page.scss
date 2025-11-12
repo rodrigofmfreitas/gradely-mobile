@@ -1,0 +1,25 @@
+ion-content {
+  --background: #121212;
+  color: #fff;
+  overflow-y: auto;
+  padding-top: 56px; /* standard header height on mobile */
+}
+
+@media (min-width: 768px) {
+  ion-content {
+    padding-top: 64px; /* slightly larger header for tablet/desktop */
+  }
+}
+
+
+ion-item {
+  --background: #1e1e1e;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+ion-label,
+ion-input,
+ion-select {
+  color: #fff;
+}

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class GuestGuard implements CanActivate {
   constructor(private afAuth: AngularFireAuth, private router: Router) {}
 
   canActivate(): Observable<boolean> {
@@ -15,10 +15,11 @@ export class AuthGuard implements CanActivate {
       take(1),
       map((user) => {
         if (user) {
-          return true;
-        } else {
-          this.router.navigate(['/login']);
+          // Already logged in → redirect to profile
+          this.router.navigate(['/profile']);
           return false;
+        } else {
+          return true;
         }
       })
     );

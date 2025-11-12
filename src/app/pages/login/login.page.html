@@ -4,37 +4,89 @@
 
     <img src="assets/img/logo2updown.png" alt="Gradely Nome" class="logo-name ion-margin-bottom" />
 
+    <div class="login-card">
+      <h2>FAÇA LOGIN</h2>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input
+            formControlName="username"
+            type="text"
+            placeholder="Usuário"
+            autocomplete="username"
+            class="custom-input">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="input-item ion-margin-top">
+          <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input
+            formControlName="password"
+            type="password"
+            placeholder="Senha"
+            autocomplete="current-password"
+            class="custom-input">
+          </ion-input>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          type="submit"
+          [disabled]="form.invalid"
+          class="login-button ion-margin-top">
+          LOGIN
+        </ion-button>
+      </form>
+
+      <div class="divider">ou</div>
+
+      <ion-button expand="block" class="google-button" (click)="loginWithGoogle()">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        Entrar com Google
+      </ion-button>
+
+      <div class="signup-link">
+        <p>Não tem uma conta?</p>
+        <a (click)="goToSignup()">Criar conta</a>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+
+<!-- <ion-content [fullscreen]="true">
+  <div class="background-image"></div>
+  <div class="login-container ion-padding">
+    <img
+      src="assets/img/logo2updown.png"
+      alt="Gradely Nome"
+      class="logo-name ion-margin-bottom"
+    />
+
     <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+      <h3>FAÇA LOGIN</h3>
+
       <ion-item lines="none" class="input-item">
-        <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
-        <ion-input
-          formControlName="username"
-          type="text"
-          placeholder="Usuário"
-          autocomplete="username"
-          class="custom-input">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input formControlName="username" type="text" placeholder="Usuário">
         </ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="input-item ion-margin-top">
-        <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
         <ion-input
           formControlName="password"
           type="password"
           placeholder="Senha"
-          autocomplete="current-password"
-          class="custom-input">
+        >
         </ion-input>
       </ion-item>
 
-      <ion-button
-        expand="block"
-        type="submit"
-        [disabled]="form.invalid"
-        class="login-button ion-margin-top">
+      <ion-button expand="block" type="submit" class="login-button">
         LOGIN
       </ion-button>
     </form>
-
   </div>
-</ion-content>
+</ion-content> -->

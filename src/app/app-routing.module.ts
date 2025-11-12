@@ -1,12 +1,24 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth-guard';
+import { GuestGuard } from './guards/guest-guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'profile', pathMatch: 'full' },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
+    canActivate: [GuestGuard]
+  },
+  {
+    path: 'signup',
+    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule),
+    canActivate: [GuestGuard]
+  },
+  {
+    path: 'user-info',
+    loadChildren: () => import('./pages/user-info/user-info.module').then( m => m.UserInfoPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile',
@@ -52,7 +64,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tasks/tasks.module').then( m => m.TasksPageModule),
     canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'profile' },
 ];
 
 @NgModule({

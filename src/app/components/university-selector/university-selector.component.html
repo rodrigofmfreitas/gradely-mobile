@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Select or Add University</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- search box -->
+  <ion-searchbar
+    placeholder="Type to search universities"
+    (ionInput)="filterUniversities($event)"
+  ></ion-searchbar>
+
+  <!-- results -->
+  <ion-list>
+    <ion-item
+      button
+      *ngFor="let u of filteredUniversities"
+      (click)="selectUniversity(u.name)"
+    >
+      {{ u.name }}
+    </ion-item>
+  </ion-list>
+
+  <!-- add new -->
+  <ion-item>
+    <ion-input
+      [(ngModel)]="newUniversity"
+      placeholder="Can't find yours? Add it here"
+    ></ion-input>
+    <ion-button slot="end" (click)="addUniversity()">Add</ion-button>
+  </ion-item>
+</ion-content>

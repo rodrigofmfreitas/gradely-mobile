@@ -1,10 +1,14 @@
 ion-content {
-  position: relative;
   --background: transparent;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
 
+  /* ✅ Background image */
   .background-image {
     position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-image: url('/assets/img/fundo-login.jpg');
@@ -13,32 +17,115 @@ ion-content {
     z-index: -1;
   }
 
-.login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    position: relative;
+  /* ✅ Login container stays perfectly centered */
+  .login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 1;
     text-align: center;
-    padding-top: 23vh;
+    width: 100%;
+    max-width: 300px;
+    padding: 0 20px;
   }
 
-  .logo-icon {
-    width: 60px;
-    margin-bottom: 5px;
+  /* ✅ Black rounded login box (BEM VINDO section) */
+  .login-box {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 25px;
+    padding: 25px 15px;
+    margin-bottom: 25px;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+
+    h2 {
+      font-size: 1.4em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    p {
+      font-size: 0.8em;
+      color: #ccc;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .gradely-logo {
+      width: 110px;
+      height: auto;
+      margin-top: 5px;
+    }
   }
 
   .logo-name {
     width: 180px;
     height: auto;
-    margin-bottom: 73px;
+    margin-bottom: 60px;
   }
 
+  /* ✅ Login form styling */
   .login-form {
-    width: 65%;
-    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    backdrop-filter: blur(6px);
+    padding: 25px 15px 35px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    max-width: 300px;
+
+    h3 {
+      font-size: 1.1em;
+      letter-spacing: 1px;
+      color: #000;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .input-item {
+      --background: rgba(255, 255, 255, 0.9);
+      --border-radius: 25px;
+      --padding-start: 10px;
+      --padding-end: 10px;
+      margin-bottom: 15px;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+      ion-icon {
+        color: #555;
+        margin-right: 8px;
+      }
+
+      ion-input {
+        --padding-start: 5px;
+        font-size: 0.9em;
+        --color: #000;
+        --placeholder-color: #888;
+      }
+    }
+
+    .login-button {
+      --background: #000;
+      --background-activated: #222;
+      color: #fff;
+      height: 36px;
+      width: 110px;
+      border-radius: 25px;
+      margin-top: 10px;
+      font-size: 0.75em;
+      letter-spacing: 1px;
+      font-weight: bold;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
   }
 
   .input-item {
@@ -47,37 +134,45 @@ ion-content {
     --padding-end: 10px;
     --border-radius: 30px;
     --border-color: transparent;
+    --highlight-height: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    width: 100%;
     margin-bottom: 15px;
+    transition: none !important;
 
-    .input-icon {
+    /* Prevent input jumping on focus */
+    &.item-has-focus {
+      --background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transform: none !important;
+    }
+
+    ion-input {
+      --padding-start: 5px;
+      font-size: 0.95em;
+      --color: var(--ion-color-dark);
+      --placeholder-color: var(--ion-color-medium-shade);
+    }
+
+    ion-icon {
       color: var(--ion-color-medium-shade);
       margin-right: 8px;
     }
-
-    .custom-input {
-       --placeholder-color: var(--ion-color-medium-shade);
-       --color: var(--ion-color-dark);
-       font-size: 0.95em;
-    }
   }
 
-  ion-input {
-    --padding-start: 5px;
-  }
-
-.login-button {
+  /* ✅ Login button */
+  .login-button {
     --background: #000000;
     --background-activated: #222;
     height: 32px;
-    font-size: 0.6em;
+    font-size: 0.7em;
     --border-radius: 25px;
     --box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     font-weight: bold;
     margin-top: 15px;
     color: white;
-    width: 90px;
-
+    width: 100px;
+    letter-spacing: 1px;
   }
 
   ion-header {
@@ -85,12 +180,46 @@ ion-content {
   }
 }
 
+/* ✅ Prevent resize or reflow when keyboard opens */
 :host {
   ion-content {
     --background: transparent !important;
   }
 }
 
-html, body {
+html,
+body {
   background: transparent !important;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ✅ Disable all transitions that could cause layout jumping */
+ion-item,
+ion-input,
+ion-icon {
+  transition: none !important;
+}
+
+/* ✅ Make sure input font size avoids browser zoom */
+ion-input,
+input {
+  font-size: 16px;
+}
+
+/* ✅ Slightly scale layout on smaller screens */
+@media (max-height: 600px) {
+  .login-container {
+    transform: translate(-50%, -45%);
+  }
+
+  .login-box {
+    padding: 20px 15px;
+    margin-bottom: 20px;
+  }
+
+  .logo-name {
+    width: 150px;
+    margin-bottom: 40px;
+  }
 }

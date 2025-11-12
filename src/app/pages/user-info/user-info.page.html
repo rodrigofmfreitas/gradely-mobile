@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form [formGroup]="userInfoForm" (ngSubmit)="onSubmit()">
+      <ion-list>
+        <!-- Full Name -->
+        <ion-item>
+          <ion-label position="floating">Nome completo</ion-label>
+          <ion-input formControlName="fullName"></ion-input>
+        </ion-item>
+
+        <!-- Date of Birth -->
+        <ion-item>
+          <ion-label position="floating">Data de Nascimento</ion-label>
+          <ion-datetime
+            formControlName="birthDate"
+            presentation="date"
+          ></ion-datetime>
+        </ion-item>
+
+        <!-- CEP -->
+        <ion-item>
+          <ion-label position="floating">CEP</ion-label>
+          <ion-input
+            formControlName="cep"
+            (ionBlur)="onCepBlur()"
+            placeholder="00000-000"
+            maxlength="9"
+          ></ion-input>
+        </ion-item>
+
+        <!-- Rua -->
+        <ion-item>
+          <ion-label position="floating">Rua</ion-label>
+          <ion-input formControlName="street"></ion-input>
+        </ion-item>
+
+        <!-- Número -->
+        <ion-item>
+          <ion-label position="floating">Número</ion-label>
+          <ion-input formControlName="number"></ion-input>
+        </ion-item>
+
+        <!-- Complemento -->
+        <ion-item>
+          <ion-label position="floating">Complemento</ion-label>
+          <ion-input formControlName="complement"></ion-input>
+        </ion-item>
+
+        <!-- Bairro -->
+        <ion-item>
+          <ion-label position="floating">Bairro</ion-label>
+          <ion-input formControlName="neighborhood"></ion-input>
+        </ion-item>
+
+        <!-- Cidade -->
+        <ion-item>
+          <ion-label position="floating">Cidade</ion-label>
+          <ion-input formControlName="city"></ion-input>
+        </ion-item>
+
+        <!-- Estado -->
+        <ion-item>
+          <ion-label position="floating">Estado</ion-label>
+          <ion-input formControlName="state"></ion-input>
+        </ion-item>
+
+        <!-- Graduação -->
+        <ion-item>
+          <ion-label position="floating">Graduação</ion-label>
+          <ion-input formControlName="graduation"></ion-input>
+        </ion-item>
+
+        <!-- Faculdade -->
+        <ion-item button (click)="openUniversitySelector()">
+          <ion-label>Universidade</ion-label>
+          <ion-note slot="end">
+            {{ selectedUniversity || 'Select a university' }}
+          </ion-note>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" type="submit">Salvar</ion-button>
+    </form>
+  </div>
+</ion-content>

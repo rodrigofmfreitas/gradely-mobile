@@ -2,11 +2,7 @@
  * App Global CSS
  * ----------------------------------------------------------------------------
  * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * the entire app and not just one component.
  */
 
 /* Core CSS required for Ionic components to work properly */
@@ -18,33 +14,20 @@
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
 
-/* Optional CSS utils that can be commented out */
+/* Optional CSS utils */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+/* Dark Mode (system-based) */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
-/* Estilo de Card Reutilizável (para Eventos, Turmas, etc.) */
+/* ============================================================= */
+/* === CARD STYLES (Your existing reusable card design) ======== */
+/* ============================================================= */
 
-/* Remove o padding padrão do ion-card quando usamos o grid */
-/* Estilo de Card Reutilizável (para Eventos, Turmas, etc.) */
-
-/* Esta classe remove o padding interno do ion-card
-  para que nossa grade (ion-grid) possa controlar 100% do espaço.
-  Este era o bug principal que quebrava seu layout.
-*/
 ion-card.card-list-item {
   --inner-padding-start: 0;
   --inner-padding-end: 0;
@@ -54,19 +37,13 @@ ion-card.card-list-item {
   margin-right: 10px;
 }
 
-/* Este é o bloco de Informação (título/subtítulo)
-  que recebe a borda colorida.
-*/
 .card-turma-info {
   padding: 12px 16px;
   border-left-width: 6px;
   border-left-style: solid;
-  height: 100%; // Garante que a borda tenha 100% da altura
+  height: 100%;
 }
 
-/* Este é o bloco de Horário (data/hora)
-  à direita do card.
-*/
 .card-turma-horario {
   display: flex;
   flex-direction: column;
@@ -86,32 +63,70 @@ ion-card.card-list-item {
   }
 }
 
-/* Garante que a linha do grid ocupe toda a altura
-  para que a borda e o horário fiquem alinhados.
-*/
 ion-card.card-list-item ion-row {
   height: 100%;
 }
 
-/* --- Variações de Cor --- */
-.card-turma-info.primary {
-  border-left-color: var(--ion-color-primary);
+/* --- Color Variations --- */
+.card-turma-info.primary { border-left-color: var(--ion-color-primary); }
+.card-turma-info.secondary { border-left-color: var(--ion-color-secondary); }
+.card-turma-info.tertiary { border-left-color: var(--ion-color-tertiary); }
+.card-turma-info.success { border-left-color: var(--ion-color-success); }
+.card-turma-info.warning { border-left-color: var(--ion-color-warning); }
+.card-turma-info.danger { border-left-color: var(--ion-color-danger); }
+.card-turma-info.dark { border-left-color: var(--ion-color-dark); }
+
+/* ===== layout vars ===== */
+:root {
+  --app-toolbar-height: 56px; /* adjust if your header is taller */
 }
-.card-turma-info.secondary {
-  border-left-color: var(--ion-color-secondary);
+
+/* make header fixed and on top */
+ion-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1200;
+  height: var(--app-toolbar-height);
 }
-.card-turma-info.tertiary {
-  border-left-color: var(--ion-color-tertiary);
+
+/* ✅ push only page content down (NOT the menu) */
+ion-router-outlet#main-content,
+ion-router-outlet#main-content > * {
+  padding-top: var(--app-toolbar-height);
+  box-sizing: border-box;
 }
-.card-turma-info.success {
-  border-left-color: var(--ion-color-success);
+
+/* ✅ position sidebar below header */
+ion-menu {
+  top: var(--app-toolbar-height);
+  height: calc(100vh - var(--app-toolbar-height));
+  z-index: 100;
 }
-.card-turma-info.warning {
-  border-left-color: var(--ion-color-warning);
+
+/* adjust inner content inside the menu */
+ion-menu ion-content {
+  --padding-top: 8px;
 }
-.card-turma-info.danger {
-  border-left-color: var(--ion-color-danger);
+
+/* ensure all layers are clickable and scroll properly */
+ion-router-outlet#main-content,
+ion-content,
+ion-menu {
+  pointer-events: auto !important;
 }
-.card-turma-info.dark {
-  border-left-color: var(--ion-color-dark);
+
+ion-modal::part(content) {
+  margin-top: var(--app-toolbar-height, 56px);
+  height: calc(100vh - var(--app-toolbar-height, 56px));
 }
+
+
+/* ============================================================= */
+/* === OPTIONAL DEBUG (uncomment if layout breaks again) ======= */
+/*
+ion-header { outline: 2px solid red; }
+ion-menu { outline: 2px solid green; }
+ion-router-outlet#main-content { outline: 2px solid blue; }
+*/

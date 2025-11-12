@@ -1,0 +1,42 @@
+<ion-content [fullscreen]="true">
+  <div class="background-image"></div>
+  <div class="login-container ion-padding">
+    <img src="assets/img/logo2updown.png" alt="Gradely Nome" class="logo-name ion-margin-bottom" />
+    <div class="login-card">
+      <h2>CRIAR CONTA</h2>
+
+      <form [formGroup]="form" (ngSubmit)="register()" class="login-form">
+        <ion-item lines="none" class="input-item">
+          <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input
+            formControlName="email"
+            type="email"
+            placeholder="Email"
+            autocomplete="email"
+            class="custom-input">
+          </ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="input-item ion-margin-top">
+          <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input
+            formControlName="password"
+            type="password"
+            placeholder="Senha"
+            autocomplete="new-password"
+            class="custom-input">
+          </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" type="submit" [disabled]="form.invalid" class="login-button ion-margin-top">
+          Criar Conta
+        </ion-button>
+      </form>
+
+      <div class="signup-link">
+        <p>Já tem uma conta?</p>
+        <a (click)="goToLogin()">Fazer login</a>
+      </div>
+    </div>
+  </div>
+</ion-content>

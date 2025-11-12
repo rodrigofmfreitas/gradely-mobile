@@ -1,0 +1,8 @@
+// ion-content {
+//   --background: #fff;
+// }
+ion-content {
+  --padding-top: 60px; /* Adjust this value to match your header height */
+  padding-top: 60px;
+  box-sizing: border-box;
+}

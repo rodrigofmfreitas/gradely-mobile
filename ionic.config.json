@@ -3,5 +3,11 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/api/universities",
+      "proxyUrl": "http://universities.hipolabs.com"
+    }
+  ]
 }
