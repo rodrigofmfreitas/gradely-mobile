@@ -32,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: 'events',
-    loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule) // <-- Esta é a linha correta
+    loadChildren: () => import('./pages/events/events.module').then( m => m.EventosPageModule)
   },
   {
     path: 'add-classes',

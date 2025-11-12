@@ -1,18 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { EventsPageRoutingModule } from './events-routing.module';
-import { EventsPage } from './events.page';
+import { EventosPage } from './events.page';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
-import { FormsModule } from '@angular/forms';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     IonicModule,
     EventsPageRoutingModule,
-    FormsModule
+    FullCalendarModule,
+    NgApexchartsModule
   ],
-  declarations: [EventsPage]
+
+  declarations: [EventosPage]
 })
-export class EventsPageModule {}
+export class EventosPageModule {}
+
+
