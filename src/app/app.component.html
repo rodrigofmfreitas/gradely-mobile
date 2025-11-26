@@ -1,73 +1,75 @@
 <ion-app>
   <!-- Global header -->
-  <ion-header *ngIf="showMenu">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <div class="logo-container">
-        <img src="assets/img/logo-gradely-nome-2.png" class="gradely-logo" />
-      </div>
-    </ion-toolbar>
-  </ion-header>
+  @if (showMenu) {
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <div class="logo-container">
+          <img src="assets/img/logo-gradely-nome-2.png" class="gradely-logo" />
+        </div>
+      </ion-toolbar>
+    </ion-header>
+  }
 
   <!-- Split pane for pages with menu -->
-  <ion-split-pane *ngIf="showMenu" contentId="main-content">
-    <!-- SIDE MENU -->
-    <ion-menu contentId="main-content" type="overlay">
-      <ion-content class="menu-content">
-        <ion-list id="inbox-list">
-          <ion-list-header>Nome-do-Usuario</ion-list-header>
-          <ion-note>usr&#64;email.com</ion-note>
-
-          @for (p of appPages; track p; let i = $index) {
-            <ion-menu-toggle auto-hide="false">
-              <ion-item
-                routerDirection="root"
-                [routerLink]="[p.url]"
-                lines="none"
-                detail="false"
-                routerLinkActive="selected"
-              >
+  @if (showMenu) {
+    <ion-split-pane contentId="main-content">
+      <!-- SIDE MENU -->
+      <ion-menu contentId="main-content" type="overlay">
+        <ion-content class="menu-content">
+          <ion-list id="inbox-list">
+            <ion-list-header>Nome-do-Usuario</ion-list-header>
+            <ion-note>usr&#64;email.com</ion-note>
+            @for (p of appPages; track p; let i = $index) {
+              <ion-menu-toggle auto-hide="false">
+                <ion-item
+                  routerDirection="root"
+                  [routerLink]="[p.url]"
+                  lines="none"
+                  detail="false"
+                  routerLinkActive="selected"
+                  >
+                  <ion-icon
+                    aria-hidden="true"
+                    slot="start"
+                    [ios]="p.icon + '-outline'"
+                    [md]="p.icon + '-sharp'"
+                  ></ion-icon>
+                  <ion-label>{{ p.title }}</ion-label>
+                </ion-item>
+              </ion-menu-toggle>
+            }
+          </ion-list>
+          <ion-list id="labels-list">
+            <ion-list-header>Alertas</ion-list-header>
+            @for (label of labels; track label) {
+              <ion-item lines="none">
                 <ion-icon
                   aria-hidden="true"
                   slot="start"
-                  [ios]="p.icon + '-outline'"
-                  [md]="p.icon + '-sharp'"
+                  ios="bookmark-outline"
+                  md="bookmark-sharp"
                 ></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
+                <ion-label>{{ label }}</ion-label>
               </ion-item>
-            </ion-menu-toggle>
-          }
-        </ion-list>
-
-        <ion-list id="labels-list">
-          <ion-list-header>Alertas</ion-list-header>
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon
-                aria-hidden="true"
-                slot="start"
-                ios="bookmark-outline"
-                md="bookmark-sharp"
-              ></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
-
-        <!-- Logout button -->
-        <ion-item button (click)="logout()">
-          <ion-icon slot="start" name="log-out-outline"></ion-icon>
-          <ion-label>Sair</ion-label>
-        </ion-item>
-      </ion-content>
-    </ion-menu>
-
-    <!-- Main outlet -->
-    <ion-router-outlet id="main-content"></ion-router-outlet>
-  </ion-split-pane>
+            }
+          </ion-list>
+          <!-- Logout button -->
+          <ion-item button (click)="logout()">
+            <ion-icon slot="start" name="log-out-outline"></ion-icon>
+            <ion-label>Sair</ion-label>
+          </ion-item>
+        </ion-content>
+      </ion-menu>
+      <!-- Main outlet -->
+      <ion-router-outlet id="main-content"></ion-router-outlet>
+    </ion-split-pane>
+  }
 
   <!-- When not logged in -->
-  <ion-router-outlet *ngIf="!showMenu" id="main-content"></ion-router-outlet>
+  @if (!showMenu) {
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  }
 </ion-app>

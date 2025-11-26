@@ -16,13 +16,14 @@
 
   <!-- results -->
   <ion-list>
-    <ion-item
-      button
-      *ngFor="let u of filteredUniversities"
-      (click)="selectUniversity(u.name)"
-    >
-      {{ u.name }}
-    </ion-item>
+    @for (u of filteredUniversities; track u) {
+      <ion-item
+        button
+        (click)="selectUniversity(u.name)"
+        >
+        {{ u.name }}
+      </ion-item>
+    }
   </ion-list>
 
   <!-- add new -->

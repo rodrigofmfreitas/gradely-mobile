@@ -9,20 +9,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="eventData; else notFound">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{ eventData.name }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Curso:</strong> {{ eventData.classEvent }}</p>
-      <p><strong>Tipo:</strong> {{ eventData.type }}</p>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
-
-<ng-template #notFound>
+@if (eventData) {
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ eventData.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Curso:</strong> {{ eventData.classEvent }}</p>
+        <p><strong>Tipo:</strong> {{ eventData.type }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+} @else {
   <ion-text color="danger">
     <p>Disciplina não encontrada.</p>
   </ion-text>
-</ng-template>
+}
+

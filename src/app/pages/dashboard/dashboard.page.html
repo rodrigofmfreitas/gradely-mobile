@@ -32,14 +32,16 @@
 
     <h2>Destaques</h2>
     <div class="highlights-container">
-      <div *ngFor="let item of destaques" class="highlight-card">
-        <div class="bar" [style.background-color]="item.color" [style.height.%]="item.percent"></div>
-        <ion-label class="bar-label">{{ item.label }}</ion-label>
-        <div class="legend">
-          <span class="dot" [style.background-color]="item.color"></span>
-          <ion-label>Disc. {{ item.disc }}</ion-label>
+      @for (item of destaques; track item) {
+        <div class="highlight-card">
+          <div class="bar" [style.background-color]="item.color" [style.height.%]="item.percent"></div>
+          <ion-label class="bar-label">{{ item.label }}</ion-label>
+          <div class="legend">
+            <span class="dot" [style.background-color]="item.color"></span>
+            <ion-label>Disc. {{ item.disc }}</ion-label>
+          </div>
         </div>
-      </div>
+      }
     </div>
 
     <div class="participation-header">
