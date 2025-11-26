@@ -1,27 +1,22 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { Auth, user } from '@angular/fire/auth';
 import { map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class GuestGuard implements CanActivate {
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+export const guestGuard: CanActivateFn = (route, state) => {
+  const auth = inject(Auth);
+  const router = inject(Router);
 
-  canActivate(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      take(1),
-      map((user) => {
-        if (user) {
-          // Already logged in → redirect to profile
-          this.router.navigate(['/profile']);
-          return false;
-        } else {
-          return true;
-        }
-      })
-    );
-  }
-}
+  return user(auth).pipe(
+    take(1),
+    map(firebaseUser => {
+      const isLoggedIn = !!firebaseUser;
+
+      if (isLoggedIn) {
+        return router.createUrlTree(['/profile']);
+      } else {
+        return true;
+      }
+    })
+  );
+};

@@ -1,10 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+// import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from 'src/app/services/auth';
 import { ModalController } from '@ionic/angular';
 import { UniversitySelectorComponent } from 'src/app/components/university-selector/university-selector.component';
+import { switchMap } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { Router } from '@angular/router';
+import {
+  Firestore,
+  collection,
+  doc,
+  setDoc,
+  collectionData,
+  docData,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-user-info',
@@ -17,13 +28,20 @@ export class UserInfoPage implements OnInit {
   universities: any[] = [];
   selectedUniversity = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-    private firestore: AngularFirestore,
-    private auth: AuthService,
-    private modalCtrl: ModalController
-  ) {}
+  private fb = inject(FormBuilder);
+  private http = inject(HttpClient);
+  private firestore: Firestore = inject(Firestore);
+  private auth = inject(AuthService);
+  private modalCtrl = inject(ModalController);
+  private router = inject(Router);
+
+  // constructor(
+  //   private fb: FormBuilder,
+  //   private http: HttpClient,
+  //   private firestore: AngularFirestore,
+  //   private auth: AuthService,
+  //   private modalCtrl: ModalController
+  // ) {}
 
   ngOnInit() {
     this.userInfoForm = this.fb.group({
@@ -56,22 +74,27 @@ export class UserInfoPage implements OnInit {
 
   // ✅ Fix: Listen to auth state and only query Firestore when the user is known
   subscribeToUser() {
-    this.auth.authState.subscribe((user: any) => {
-      if (!user) return;
-
-      this.firestore
-        .collection('users')
-        .doc(user.uid)
-        .valueChanges()
-        .subscribe((data: any) => {
-          if (data) {
-            this.userInfoForm.patchValue(data);
-            if (data.college) {
-              this.selectedUniversity = data.college;
-            }
+    this.auth.authState
+      .pipe(
+        // Map the user observable to the Firestore data observable
+        switchMap((user: any) => {
+          if (!user) {
+            return EMPTY; // Return an empty observable if no user
           }
-        });
-    });
+
+          // ✅ Modular Firestore Syntax for fetching a single document
+          const userDocRef = doc(this.firestore, 'users', user.uid);
+          return docData(userDocRef); // docData returns an Observable<any>
+        })
+      )
+      .subscribe((data: any) => {
+        if (data) {
+          this.userInfoForm.patchValue(data);
+          if (data.college) {
+            this.selectedUniversity = data.college;
+          }
+        }
+      });
   }
 
   // Open modal to select or add university
@@ -119,12 +142,13 @@ export class UserInfoPage implements OnInit {
     if (!user) return;
 
     const userData = this.userInfoForm.value;
+    const userDocRef = doc(this.firestore, 'users', user.uid);
 
-    this.firestore
-      .collection('users')
-      .doc(user.uid)
-      .set(userData, { merge: true })
-      .then(() => console.log('✅ User data saved successfully'))
+    setDoc(userDocRef, userData, { merge: true })
+      .then(() => {
+        console.log('✅ User data saved successfully');
+        this.router.navigate(['/profile'])
+      })
       .catch((err) => console.error('❌ Error saving user data:', err));
   }
 }

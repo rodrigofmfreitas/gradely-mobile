@@ -16,12 +16,18 @@
   <!-- Split pane for pages with menu -->
   @if (showMenu) {
     <ion-split-pane contentId="main-content">
-      <!-- SIDE MENU -->
       <ion-menu contentId="main-content" type="overlay">
         <ion-content class="menu-content">
           <ion-list id="inbox-list">
-            <ion-list-header>Nome-do-Usuario</ion-list-header>
-            <ion-note>usr&#64;email.com</ion-note>
+
+            @if (sidebarProfile$ | async; as profile) {
+              <ion-list-header>{{ profile.fullName || 'Usuário' }}</ion-list-header>
+              <ion-note>{{ profile.email }}</ion-note>
+            } @else {
+              <ion-list-header>Usuário Desconhecido</ion-list-header>
+              <ion-note>Faça login</ion-note>
+            }
+
             @for (p of appPages; track p; let i = $index) {
               <ion-menu-toggle auto-hide="false">
                 <ion-item
@@ -56,14 +62,12 @@
               </ion-item>
             }
           </ion-list>
-          <!-- Logout button -->
           <ion-item button (click)="logout()">
             <ion-icon slot="start" name="log-out-outline"></ion-icon>
             <ion-label>Sair</ion-label>
           </ion-item>
         </ion-content>
       </ion-menu>
-      <!-- Main outlet -->
       <ion-router-outlet id="main-content"></ion-router-outlet>
     </ion-split-pane>
   }

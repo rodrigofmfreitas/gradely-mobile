@@ -8,6 +8,72 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div class="profile-header">
+    <div class="profile-picture-wrapper">
+      <img
+        [src]="profileImage || 'assets/img/logo-gradely-boneco-icone.png'"
+        alt="Profile Picture"
+        class="profile-picture"
+        (click)="changePhoto()"
+      />
+      <ion-icon name="create-outline" class="edit-icon"></ion-icon>
+    </div>
+  </div>
+
+  <ion-card>
+    <ion-list>
+      <ion-item lines="none">
+        <ion-label position="stacked">Nome</ion-label>
+        <p>{{ userData?.fullName || 'N/A' }}</p>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Endereço</ion-label>
+        <p>{{ fullAddress }}</p>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Instituição de Ensino</ion-label>
+        <p>{{ userData?.college || 'N/A' }}</p>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Graduação</ion-label>
+        <p>{{ userData?.graduation || 'N/A' }}</p>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Rendimento Acadêmico</ion-label>
+        <p>A ser implementado...</p>
+      </ion-item>
+
+      <ion-item-divider></ion-item-divider>
+
+      <ion-button expand="block" routerLink="/user-info" class="ion-margin-top">
+        Editar Informações
+      </ion-button>
+    </ion-list>
+  </ion-card>
+</ion-content>
+
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
    <div class="profile-header">
     <div class="profile-picture-wrapper">
       <img
@@ -48,4 +114,4 @@
       </ion-item>
     </ion-list>
   </ion-card>
-</ion-content>
+</ion-content> -->
