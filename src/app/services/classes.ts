@@ -3,16 +3,24 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, doc, setDoc, updateDoc, query, where, collectionData, DocumentData, DocumentReference, getDoc, docData } from '@angular/fire/firestore';
 import { AuthService } from './auth'; // Adjust path as necessary
-import { Observable, switchMap, filter, map, of } from 'rxjs';
+import { Observable, switchMap, filter, map, of, combineLatest } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { ClassItem, NewClassForm } from '../models/classModel'; // Import the model
+import { TasksService } from './tasks.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+// @Injectable({
+//   providedIn: 'root'
+// })
+
+interface ComputedClassItem extends ClassItem {
+  currentGrade: number; // The sum of pointsReceived
+  totalPointsPossible: number; // Sum of pointsWorth for all tasks
+}
+
 export class ClassesService {
   private firestore = inject(Firestore);
   private auth = inject(AuthService);
+  private tasksService = inject(TasksService); // Inject the TasksService
 
   private getClassesCollection(uid: string) {
     return collection(this.firestore, `users/${uid}/classes`);
@@ -82,5 +90,41 @@ export class ClassesService {
     const docRef = doc(this.getClassesCollection(user.uid), classId);
 
     await updateDoc(docRef, { isCompleted: true });
+  }
+
+  getComputedClassDetails(classId: string): Observable<ComputedClassItem | null> {
+  // 1. Get the base class details
+    const classDetails$ = this.getClassDetails(classId);
+
+    // 2. Get ALL tasks for that class
+    const classTasks$ = this.tasksService.getTasksByClassId(classId);
+
+    // Combine both streams
+    return combineLatest([classDetails$, classTasks$]).pipe(
+      map(([classDetails, tasks]) => {
+        if (!classDetails) return null;
+
+        let acquiredPoints = 0;
+        let possiblePoints = 0;
+
+        // Iterate through all tasks associated with this class
+        tasks.forEach(task => {
+          // A task must be archived to count towards the final grade calculation
+          if (task.isArchived) {
+            acquiredPoints += task.pointsReceived || 0; // Use pointsReceived
+          }
+
+          // Count all points possible, regardless of archive status
+          possiblePoints += task.pointsWorth || 0;
+        });
+
+        // Return the class details plus the computed grades
+        return {
+          ...classDetails,
+          currentGrade: acquiredPoints,
+          totalPointsPossible: possiblePoints
+        } as ComputedClassItem;
+      })
+    );
   }
 }
