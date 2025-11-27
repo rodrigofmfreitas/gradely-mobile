@@ -161,4 +161,22 @@ export class TasksService {
       }))
     );
   }
+
+  getTasksByClassId(classId: string): Observable<TaskItem[]> {
+    return this.auth.authState.pipe(
+      filter((user: User | null): user is User => !!user),
+      switchMap((user: User) => {
+        const tasksRef = this.getTasksCollection(user.uid);
+        // Query tasks where classId matches the provided ID
+        const tasksQuery = query(
+          tasksRef,
+          where('classId', '==', classId),
+          // Optional: Order by due date to keep the list organized
+          orderBy('dueDate', 'asc')
+        );
+
+        return collectionData(tasksQuery, { idField: 'id' }) as Observable<TaskItem[]>;
+      })
+    );
+  }
 }

@@ -1,5 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/classes">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Detalhes da Disciplina</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -41,6 +46,7 @@
           </ion-text>
         </ion-item>
       </ion-list>
+
       <ion-button
         expand="block"
         fill="outline"
@@ -51,16 +57,72 @@
         Editar Detalhes
       </ion-button>
 
-      <h3 class="ion-padding-top">Próximas Tarefas</h3>
-      <p>Nenhuma tarefa agendada.</p>
+      <h3 class="ion-padding-top">Tarefas da Disciplina</h3>
+      <hr>
+
+      @if (classTasks$ | async; as tasks) {
+        @if (tasks.length > 0) {
+
+          @for (task of tasks; track task.id) {
+            <ion-card class="task-card small-task-card">
+              <div
+                class="urgency-indicator"
+                [style.background-color]="taskService.getUrgencyColor(task)"
+              ></div>
+
+              <ion-card-header class="ion-no-padding">
+                <ion-card-title class="task-title">
+                  {{ task.taskType }} {{ task.taskNumber }}
+                </ion-card-title>
+                <ion-card-subtitle class="task-subtitle">
+                  Entrega: {{ task.dueDate | date:'dd/MM/yyyy' }}
+                </ion-card-subtitle>
+              </ion-card-header>
+
+              <ion-card-content class="ion-no-padding">
+                <div class="task-footer">
+                  <ion-label>
+                    <ion-text [color]="task.isArchived ? 'success' : task.isCompleted ? 'blue' : 'warning'">
+                      {{ task.isArchived ? 'Arquivado' : task.isCompleted ? 'Concluído' : 'Pendente' }}
+                    </ion-text>
+                    — {{ task.pointsWorth }} pts
+                    @if (task.pointsReceived !== undefined) {
+                      (Nota: {{ task.pointsReceived }})
+                    }
+                  </ion-label>
+
+                  <ion-button
+                    fill="clear"
+                    size="small"
+                    color="primary"
+                    [routerLink]="['/task-details', task.id]"
+                  >
+                    DETALHES
+                  </ion-button>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          }
+
+        } @else {
+          <p>Nenhuma tarefa cadastrada para esta disciplina.</p>
+        }
+      } @else {
+        <ion-spinner name="dots"></ion-spinner>
+      }
+
+      <ion-button
+        expand="block"
+        color="secondary"
+        routerLink="/add-task"
+        class="ion-margin-top"
+      >
+        Adicionar Nova Tarefa à {{ class.className }}
+      </ion-button>
+
     </ion-card-content>
   </ion-card>
 </ion-content>
-<ion-buttons slot="start">
-  <ion-button routerLink="/classes">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-  </ion-button>
-</ion-buttons>
 } @else {
 <ion-content class="ion-padding ion-text-center">
   <ion-spinner name="crescent"></ion-spinner>
