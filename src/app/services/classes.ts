@@ -8,14 +8,14 @@ import { User } from '@angular/fire/auth';
 import { ClassItem, NewClassForm } from '../models/classModel'; // Import the model
 import { TasksService } from './tasks.service';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-
 interface ComputedClassItem extends ClassItem {
   currentGrade: number; // The sum of pointsReceived
   totalPointsPossible: number; // Sum of pointsWorth for all tasks
 }
+
+@Injectable({
+  providedIn: 'root'
+})
 
 export class ClassesService {
   private firestore = inject(Firestore);
