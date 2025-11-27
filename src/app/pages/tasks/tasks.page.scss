@@ -1,0 +1,17 @@
+.task-card {
+  position: relative;
+  overflow: hidden;
+
+  .urgency-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px; // Width of the color bar
+    height: 100%; // Full height of the card
+    z-index: 10;
+  }
+
+  ion-card-header, ion-card-content {
+    padding-right: 30px; // Ensure content isn't under the color bar
+  }
+}

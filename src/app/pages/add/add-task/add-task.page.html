@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tasks">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Nova Tarefa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <form [formGroup]="taskForm" (ngSubmit)="addTask()">
+      <ion-card-content>
+
+        <ion-item>
+          <ion-label position="stacked">Disciplina (Obrigatório)</ion-label>
+          <ion-select formControlName="classId" placeholder="Selecione a disciplina">
+            @if (activeClasses$ | async; as classes) {
+              @for (classItem of classes; track classItem.id) {
+                <ion-select-option [value]="classItem.id">
+                  {{ classItem.className }} ({{ classItem.university }})
+                </ion-select-option>
+              }
+            }
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Tipo de Tarefa</ion-label>
+          <ion-select formControlName="taskType" placeholder="Selecione o tipo">
+            @for (type of taskTypes; track type) {
+              <ion-select-option [value]="type">{{ type }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Pontos que Vale</ion-label>
+          <ion-input
+            formControlName="pointsWorth"
+            type="number"
+            min="1"
+            placeholder="Ex: 100"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Data de Entrega</ion-label>
+          <ion-input formControlName="dueDate" type="date"></ion-input>
+        </ion-item>
+
+        <ion-button
+          expand="block"
+          color="success"
+          type="submit"
+          class="ion-margin-top"
+          [disabled]="taskForm.invalid"
+        >
+          Criar Tarefa
+        </ion-button>
+
+      </ion-card-content>
+    </form>
+  </ion-card>
+</ion-content>

@@ -64,7 +64,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tasks/tasks.module').then( m => m.TasksPageModule),
     canActivate: [authGuard]
   },
+  {
+    path: 'add-task',
+    loadChildren: () => import('./pages/add/add-task/add-task.module').then( m => m.AddTaskPageModule),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'task-detail',
+    loadChildren: () => import('./pages/detail/task-detail/task-detail.module').then( m => m.TaskDetailPageModule),
+    canActivate: [authGuard]
+  },
   { path: '**', redirectTo: 'profile' },
+
 ];
 
 @NgModule({

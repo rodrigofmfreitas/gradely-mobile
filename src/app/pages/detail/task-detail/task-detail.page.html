@@ -1,0 +1,71 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/tasks">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Detalhes da Tarefa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+@if (taskData$ | async; as task) {
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Disciplina: {{ task.className }}</ion-card-subtitle>
+        <ion-card-title>{{ task.taskType }} {{ task.taskNumber }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-list lines="full" class="ion-no-padding">
+          <ion-item>
+            <ion-label><strong>Tipo:</strong></ion-label>
+            <ion-text slot="end">{{ task.taskType }}</ion-text>
+          </ion-item>
+
+          <ion-item>
+            <ion-label><strong>Entrega:</strong></ion-label>
+            <ion-text slot="end">{{ task.dueDate | date:'dd/MM/yyyy' }}</ion-text>
+          </ion-item>
+
+          <ion-item>
+            <ion-label><strong>Pontuação Máxima:</strong></ion-label>
+            <ion-text slot="end" color="warning">{{ task.pointsWorth }} pts</ion-text>
+          </ion-item>
+
+          @if (task.pointsReceived !== undefined) {
+            <ion-item>
+              <ion-label><strong>Nota Recebida:</strong></ion-label>
+              <ion-text slot="end" color="success">{{ task.pointsReceived }} pts</ion-text>
+            </ion-item>
+          }
+
+          <ion-item>
+            <ion-label><strong>Status:</strong></ion-label>
+            <ion-text slot="end" [color]="task.isArchived ? 'success' : task.isCompleted ? 'blue' : 'warning'">
+                {{ task.isArchived ? 'Arquivada' : task.isCompleted ? 'Concluída' : 'Pendente' }}
+            </ion-text>
+          </ion-item>
+        </ion-list>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          routerLink="/tasks/{{ task.id }}/edit"
+          class="ion-margin-top"
+          [disabled]="task.isArchived"
+        >
+            Editar Tarefa
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+} @else {
+  <ion-content class="ion-padding ion-text-center">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Carregando detalhes da tarefa...</p>
+  </ion-content>
+}
