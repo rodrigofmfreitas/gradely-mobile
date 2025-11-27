@@ -35,14 +35,6 @@ export class UserInfoPage implements OnInit {
   private modalCtrl = inject(ModalController);
   private router = inject(Router);
 
-  // constructor(
-  //   private fb: FormBuilder,
-  //   private http: HttpClient,
-  //   private firestore: AngularFirestore,
-  //   private auth: AuthService,
-  //   private modalCtrl: ModalController
-  // ) {}
-
   ngOnInit() {
     this.userInfoForm = this.fb.group({
       fullName: [''],
@@ -65,7 +57,7 @@ export class UserInfoPage implements OnInit {
   // Load universities
   loadUniversities() {
     this.http
-      .get<any[]>('http://universities.hipolabs.com/search?country=brazil')
+      .get<any[]>('assets/data/brazilian-universities.json')
       .subscribe({
         next: (data) => (this.universities = data),
         error: (err) => console.error('Error loading universities:', err),
