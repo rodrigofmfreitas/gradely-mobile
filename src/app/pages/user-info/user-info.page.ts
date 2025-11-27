@@ -57,7 +57,7 @@ export class UserInfoPage implements OnInit {
   // Load universities
   loadUniversities() {
     this.http
-      .get<any[]>('/src/assets/data/brazilian-universities.json')
+      .get<any[]>('/assets/data/brazilian-universities.json')
       .subscribe({
         next: (data) => (this.universities = data),
         error: (err) => console.error('Error loading universities:', err),
