@@ -1,17 +1,14 @@
-// src/app/services/classes.service.ts
+// src/app/services/classes.service.ts (FIXED)
 
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, doc, setDoc, updateDoc, query, where, collectionData, DocumentData, DocumentReference, getDoc, docData } from '@angular/fire/firestore';
-import { AuthService } from './auth'; // Adjust path as necessary
-import { Observable, switchMap, filter, map, of, combineLatest } from 'rxjs';
+import { Firestore, collection, doc, setDoc, updateDoc, query, where, collectionData, docData } from '@angular/fire/firestore';
+import { AuthService } from './auth';
+import { Observable, switchMap, filter, map, of } from 'rxjs';
 import { User } from '@angular/fire/auth';
-import { ClassItem, NewClassForm } from '../models/classModel'; // Import the model
-import { TasksService } from './tasks.service';
+import { ClassItem, NewClassForm } from '../models/classModel';
 
-interface ComputedClassItem extends ClassItem {
-  currentGrade: number; // The sum of pointsReceived
-  totalPointsPossible: number; // Sum of pointsWorth for all tasks
-}
+// NOTE: The 'ComputedClassItem' interface and the 'getComputedClassDetails' method
+// are REMOVED to break the circular dependency. The component handles this logic now.
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +17,7 @@ interface ComputedClassItem extends ClassItem {
 export class ClassesService {
   private firestore = inject(Firestore);
   private auth = inject(AuthService);
-  private tasksService = inject(TasksService); // Inject the TasksService
+  // private tasksService = inject(TasksService); // 🛑 REMOVED to break circular dependency
 
   private getClassesCollection(uid: string) {
     return collection(this.firestore, `users/${uid}/classes`);
@@ -92,39 +89,6 @@ export class ClassesService {
     await updateDoc(docRef, { isCompleted: true });
   }
 
-  getComputedClassDetails(classId: string): Observable<ComputedClassItem | null> {
-  // 1. Get the base class details
-    const classDetails$ = this.getClassDetails(classId);
-
-    // 2. Get ALL tasks for that class
-    const classTasks$ = this.tasksService.getTasksByClassId(classId);
-
-    // Combine both streams
-    return combineLatest([classDetails$, classTasks$]).pipe(
-      map(([classDetails, tasks]) => {
-        if (!classDetails) return null;
-
-        let acquiredPoints = 0;
-        let possiblePoints = 0;
-
-        // Iterate through all tasks associated with this class
-        tasks.forEach(task => {
-          // A task must be archived to count towards the final grade calculation
-          if (task.isArchived) {
-            acquiredPoints += task.pointsReceived || 0; // Use pointsReceived
-          }
-
-          // Count all points possible, regardless of archive status
-          possiblePoints += task.pointsWorth || 0;
-        });
-
-        // Return the class details plus the computed grades
-        return {
-          ...classDetails,
-          currentGrade: acquiredPoints,
-          totalPointsPossible: possiblePoints
-        } as ComputedClassItem;
-      })
-    );
-  }
+  // 🛑 The getComputedClassDetails method is DELETED
+  // because it relied on TasksService, causing the circular dependency.
 }

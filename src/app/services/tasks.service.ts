@@ -1,4 +1,4 @@
-// src/app/services/tasks.service.ts
+// src/app/services/tasks.service.ts (FIXED)
 
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Injectable, inject } from '@angular/core';
@@ -17,7 +17,7 @@ import {
   docData,
 } from '@angular/fire/firestore';
 import { AuthService } from './auth';
-import { ClassesService } from './classes';
+// import { ClassesService } from './classes'; // 🛑 REMOVED IMPORT
 import {
   Observable,
   switchMap,
@@ -31,7 +31,7 @@ import {
 } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { TaskItem, NewTaskForm, TaskType } from '../models/task';
-import { ClassItem } from '../models/classModel'; // Use ClassItem for active class list
+import { ClassItem } from '../models/classModel'; // Used for type reference only
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +39,7 @@ import { ClassItem } from '../models/classModel'; // Use ClassItem for active cl
 export class TasksService {
   private firestore = inject(Firestore);
   private auth = inject(AuthService);
-  private classesService = inject(ClassesService);
+  // private classesService = inject(ClassesService); // 🛑 REMOVED to break circular dependency
   private taskUrgencyCache = new Map<string, string>();
 
   private getTasksCollection(uid: string) {
@@ -81,10 +81,10 @@ export class TasksService {
   }
 
   /** Gets active classes formatted for use in a dropdown/select. */
-  getActiveClassesForForm(): Observable<ClassItem[]> {
-    // Reuses the ClassesService to get the list of active classes
-    return this.classesService.getActiveClasses();
-  }
+  // 🛑 REMOVED: This method depended on ClassesService and must now be handled by the component/page that uses it.
+  // getActiveClassesForForm(): Observable<ClassItem[]> {
+  //   return this.classesService.getActiveClasses();
+  // }
 
   // --- WRITE Operations ---
 
@@ -113,32 +113,29 @@ export class TasksService {
     return (snapshot.docs[0].data() as TaskItem).taskNumber + 1;
   }
 
-  /** Adds a new task after calculating its sequence number. */
-  async addTask(formData: NewTaskForm): Promise<void> {
+  /**
+   * Adds a new task after calculating its sequence number.
+   * ✅ FIXED: Now requires className to be passed in, avoiding a call to ClassesService.
+   */
+  async addTask(formData: NewTaskForm, className: string): Promise<void> {
     const user = await this.auth.currentUser;
     if (!user) throw new Error('Usuário não autenticado.');
 
-    // 1. Get the current class name for caching (needed for the card display)
-    const classDetails$ = this.classesService
-      .getClassDetails(formData.classId)
-      .pipe(take(1));
-    const classDetails = await classDetails$.toPromise();
+    // 🛑 REMOVED: Code block that fetched classDetails$ via this.classesService
 
-    if (!classDetails) throw new Error('Classe associada não encontrada.');
-
-    // 2. Determine the sequential task number
+    // 1. Determine the sequential task number
     const taskNumber = await this.getNextTaskNumber(
       user.uid,
       formData.classId,
       formData.taskType
     );
 
-    // 3. Create the document
+    // 2. Create the document
     const docRef = doc(this.getTasksCollection(user.uid));
 
     await setDoc(docRef, {
       classId: formData.classId,
-      className: classDetails.className, // Cache the name
+      className: className, // ✅ Use the passed-in class name
       taskType: formData.taskType,
       taskNumber: taskNumber,
       dueDate: formData.dueDate,
@@ -226,7 +223,6 @@ export class TasksService {
     this.getTasks()
       .pipe(
         tap((tasks) => {
-          const now = Date.now();
           tasks.forEach((task) => {
             const newColor = this.getUrgencyColor(task);
             const oldColor = this.taskUrgencyCache.get(task.id);
@@ -266,9 +262,9 @@ export class TasksService {
       notifications: [
         {
           title: title,
-          body: `${task.taskType} ${task.taskNumber} (${task.className}). ${body}`, // ✅ CORRECTED: Call the instance method 'this.hashCode()' on the string
+          body: `${task.taskType} ${task.taskNumber} (${task.className}). ${body}`,
           id: this.hashCode(task.id) % 10000,
-          sound: 'default', // ...
+          sound: 'default',
         },
       ],
     });

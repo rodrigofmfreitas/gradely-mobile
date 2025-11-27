@@ -26,8 +26,8 @@ export class ClassDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private classService: ClassesService,
-    public taskService: TasksService
+    private classService: ClassesService, // Gets class data
+    public taskService: TasksService      // Gets task data
   ) {}
 
   public computedClass$!: Observable<ComputedClassItem | null>;

@@ -1,6 +1,11 @@
 // src/app/models/task.model.ts
 
-export type TaskType = 'Prova' | 'Atividade' | 'Trabalho';
+export enum TaskType {
+    Prova = 'Prova',
+    Trabalho = 'Trabalho',
+    Apresentacao = 'Apresentação',
+    // Add any other types you need
+}
 
 export interface TaskItem {
   id: string;             // Document ID
