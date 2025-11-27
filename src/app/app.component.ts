@@ -57,26 +57,20 @@ export class AppComponent implements OnInit, OnDestroy{
         if (!user) {
           return of(null);
         }
-
         const userDocRef = this.getUserDocRef(user.uid);
-
         return docData<UserFirestoreData>(userDocRef).pipe(
           map((profileData: UserFirestoreData | undefined) => {
             if (profileData && profileData.fullName) {
-                // Get the first name safely
                 const firstName = profileData.fullName.split(' ')[0];
-
                 return {
                     fullName: firstName,
                     email: user.email || 'N/A',
                 } as SidebarProfile;
             }
-
             return {
                 fullName: 'Usuário',
                 email: user.email || 'N/A',
             } as SidebarProfile;
-
           })
         );
       })

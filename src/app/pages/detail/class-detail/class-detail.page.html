@@ -1,28 +1,69 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button routerLink="/classes">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Detalhes</ion-title>
+    <ion-title>Detalhes da Disciplina</ion-title>
   </ion-toolbar>
 </ion-header>
 
-@if (classData) {
-  <ion-content class="ion-padding">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ classData.name }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p><strong>Curso:</strong> {{ classData.course }}</p>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
-} @else {
-  <ion-text color="danger">
-    <p>Disciplina não encontrada.</p>
-  </ion-text>
-}
+@if (classData$ | async; as class) {
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>{{ class.university }}</ion-card-subtitle>
+      <ion-card-title>{{ class.className }}</ion-card-title>
+    </ion-card-header>
 
+    <ion-card-content>
+      <ion-list lines="full" class="ion-no-padding">
+        <ion-item>
+          <ion-label><strong>Curso:</strong></ion-label>
+          <ion-text slot="end">{{ class.course }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label><strong>Instituição:</strong></ion-label>
+          <ion-text slot="end">{{ class.university }}</ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label><strong>Nota Atual:</strong></ion-label>
+          <ion-text slot="end" color="primary"
+            >{{ class.currentGrade | number:'1.0-2' }}</ion-text
+          >
+        </ion-item>
+
+        <ion-item>
+          <ion-label><strong>Status:</strong></ion-label>
+          <ion-text
+            slot="end"
+            [color]="class.isCompleted ? 'success' : 'warning'"
+          >
+            {{ class.isCompleted ? 'Finalizada' : 'Em Andamento' }}
+          </ion-text>
+        </ion-item>
+      </ion-list>
+      <ion-button
+        expand="block"
+        fill="outline"
+        routerLink="/classes/{{ class.id }}/edit"
+        class="ion-margin-top"
+        [disabled]="class.isCompleted"
+      >
+        Editar Detalhes
+      </ion-button>
+
+      <h3 class="ion-padding-top">Próximas Tarefas</h3>
+      <p>Nenhuma tarefa agendada.</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-buttons slot="start">
+  <ion-button routerLink="/classes">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </ion-button>
+</ion-buttons>
+} @else {
+<ion-content class="ion-padding ion-text-center">
+  <ion-spinner name="crescent"></ion-spinner>
+  <p>Carregando detalhes da disciplina...</p>
+</ion-content>
+}

@@ -3,26 +3,69 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Disciplinas em Andamento</ion-title>
+    <ion-title>Disciplinas Ativas</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/add-classes">
-        <ion-icon name="add-circle-outline"></ion-icon>
+      <ion-button routerLink="/add-class">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  @for (c of classes; track c) {
-    <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle>{{ c.course }}</ion-card-subtitle>
-        <ion-card-title>{{ c.name }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-button size="small" fill="clear" (click)="getDetail(c.id)">Detalhes</ion-button>
-        <ion-button size="small" color="success" fill="clear" (click)="finalize(c.id)">Finalizar</ion-button>
-      </ion-card-content>
-    </ion-card>
+
+  @if (activeClasses$ | async; as classes) {
+
+    @if (classes.length > 0) {
+      @for (classItem of classes; track classItem.id) {
+        <ion-card class="class-card">
+          <ion-card-header>
+            <ion-card-subtitle>{{ classItem.course }} - {{ classItem.university }}</ion-card-subtitle>
+            <ion-card-title>{{ classItem.className }}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="grade-info">
+              <ion-label>Nota Atual:</ion-label>
+              <span class="current-grade">{{ classItem.currentGrade | number:'1.0-2' }}</span>
+            </div>
+
+            <div class="action-buttons">
+              <ion-button
+                fill="clear"
+                size="small"
+                color="primary"
+                (click)="goToDetails(classItem.id)"
+              >
+                DETALHES
+              </ion-button>
+
+              <ion-button
+                fill="clear"
+                size="small"
+                color="success"
+                (click)="finalizeClass(classItem.id)"
+              >
+                FINALIZAR
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      }
+    } @else {
+      <div class="ion-text-center ion-padding-top">
+        <ion-icon name="school-outline" size="large" color="medium"></ion-icon>
+        <p>Você não tem disciplinas ativas. Adicione uma nova!</p>
+        <ion-button routerLink="/add-classes" fill="outline">
+          Adicionar Disciplina
+        </ion-button>
+      </div>
+    }
+  } @else {
+    <div class="ion-text-center ion-padding-top">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Carregando disciplinas...</p>
+    </div>
   }
+
 </ion-content>
